@@ -8,8 +8,13 @@ const data = Array.from(["none", "10 5", [20, 3], [30, 5, 10, 10], null],
 
 export default async function() {
   return Plot.plot({
+    height: 640,
+    x: {inset: 10},
+    y: {inset: 10},
+    axis: null,
     facet: {data, x: "strokeDasharray", y: "strokeDashoffset"},
     marks: [
+      Plot.frame(),
       Plot.arrow(data, {
         x1: 0,
         x2: 1,
@@ -20,9 +25,6 @@ export default async function() {
         bend: true,
         headLength: 0
       })
-    ],
-    fx: {padding: 0.2},
-    fy: {padding: 0.2},
-    axis: null
+    ]
   });
 }
