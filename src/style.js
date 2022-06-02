@@ -76,6 +76,8 @@ export function styles(
   const [vstroke, cstroke] = maybeColorChannel(stroke, defaultStroke);
   const [vstrokeOpacity, cstrokeOpacity] = maybeNumberChannel(strokeOpacity, defaultStrokeOpacity);
   const [vopacity, copacity] = maybeNumberChannel(opacity);
+  const [vstrokeDasharray, cstrokeDasharray] = maybeDasharrayChannel(strokeDasharray);
+  const [vstrokeDashoffset, cstrokeDashoffset] = maybeNumberChannel(strokeDashoffset);
 
   // For styles that have no effect if there is no stroke, only apply the
   // defaults if the stroke is not the constant none. (If stroke is a channel,
@@ -111,8 +113,8 @@ export function styles(
     mark.strokeLinejoin = impliedString(strokeLinejoin, "miter");
     mark.strokeLinecap = impliedString(strokeLinecap, "butt");
     mark.strokeMiterlimit = impliedNumber(strokeMiterlimit, 4);
-    mark.strokeDasharray = impliedString(strokeDasharray, "none");
-    mark.strokeDashoffset = impliedString(strokeDashoffset, "0");
+    mark.strokeDasharray = impliedString(cstrokeDasharray, "none");
+    mark.strokeDashoffset = impliedString(cstrokeDashoffset, "0");
   }
 
   mark.target = string(target);
@@ -132,6 +134,8 @@ export function styles(
     {name: "fill", value: vfill, scale: "color", optional: true},
     {name: "fillOpacity", value: vfillOpacity, scale: "opacity", optional: true},
     {name: "stroke", value: vstroke, scale: "color", optional: true},
+    {name: "strokeDasharray", value: vstrokeDasharray, optional: true},
+    {name: "strokeDashoffset", value: vstrokeDashoffset, optional: true},
     {name: "strokeOpacity", value: vstrokeOpacity, scale: "opacity", optional: true},
     {name: "strokeWidth", value: vstrokeWidth, optional: true},
     {name: "opacity", value: vopacity, scale: "opacity", optional: true}
@@ -156,25 +160,29 @@ export function applyTextGroup(selection, T) {
   if (T) selection.text(([i]) => formatDefault(T[i]));
 }
 
-export function applyChannelStyles(selection, {target}, {ariaLabel: AL, title: T, fill: F, fillOpacity: FO, stroke: S, strokeOpacity: SO, strokeWidth: SW, opacity: O, href: H}) {
+export function applyChannelStyles(selection, {target}, {ariaLabel: AL, title: T, fill: F, fillOpacity: FO, stroke: S, strokeOpacity: SO, strokeWidth: SW, opacity: O, href: H, strokeDasharray: SDA, strokeDashoffset: SDO}) {
   if (AL) applyAttr(selection, "aria-label", i => AL[i]);
   if (F) applyAttr(selection, "fill", i => F[i]);
   if (FO) applyAttr(selection, "fill-opacity", i => FO[i]);
   if (S) applyAttr(selection, "stroke", i => S[i]);
   if (SO) applyAttr(selection, "stroke-opacity", i => SO[i]);
   if (SW) applyAttr(selection, "stroke-width", i => SW[i]);
+  if (SDA) applyAttr(selection, "stroke-dasharray", i => SDA[i]);
+  if (SDO) applyAttr(selection, "stroke-dashoffset", i => SDO[i]);
   if (O) applyAttr(selection, "opacity", i => O[i]);
   if (H) applyHref(selection, i => H[i], target);
   applyTitle(selection, T);
 }
 
-export function applyGroupedChannelStyles(selection, {target}, {ariaLabel: AL, title: T, fill: F, fillOpacity: FO, stroke: S, strokeOpacity: SO, strokeWidth: SW, opacity: O, href: H}) {
+export function applyGroupedChannelStyles(selection, {target}, {ariaLabel: AL, title: T, fill: F, fillOpacity: FO, stroke: S, strokeOpacity: SO, strokeWidth: SW, opacity: O, href: H, strokeDasharray: SDA, strokeDashoffset: SDO}) {
   if (AL) applyAttr(selection, "aria-label", ([i]) => AL[i]);
   if (F) applyAttr(selection, "fill", ([i]) => F[i]);
   if (FO) applyAttr(selection, "fill-opacity", ([i]) => FO[i]);
   if (S) applyAttr(selection, "stroke", ([i]) => S[i]);
   if (SO) applyAttr(selection, "stroke-opacity", ([i]) => SO[i]);
   if (SW) applyAttr(selection, "stroke-width", ([i]) => SW[i]);
+  if (SDA) applyAttr(selection, "stroke-dasharray", ([i]) => SDA[i]);
+  if (SDO) applyAttr(selection, "stroke-dashoffset", ([i]) => SDO[i]);
   if (O) applyAttr(selection, "opacity", ([i]) => O[i]);
   if (H) applyHref(selection, ([i]) => H[i], target);
   applyTitleGroup(selection, T);
@@ -356,4 +364,8 @@ export function applyFrameAnchor({frameAnchor}, {width, height, marginTop, margi
     /left$/.test(frameAnchor) ? marginLeft : /right$/.test(frameAnchor) ? width - marginRight : (marginLeft + width - marginRight) / 2,
     /^top/.test(frameAnchor) ? marginTop : /^bottom/.test(frameAnchor) ? height - marginBottom : (marginTop + height - marginBottom) / 2
   ];
+}
+
+function maybeDasharrayChannel(channel) {
+  return typeof channel === "function" ? [channel] : [, channel];
 }
