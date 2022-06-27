@@ -211,6 +211,8 @@ export {default as stargazersBinned} from "./stargazers-binned.js";
 export {default as stargazersHourly} from "./stargazers-hourly.js";
 export {default as stargazersHourlyGroup} from "./stargazers-hourly-group.js";
 export {default as stocksIndex} from "./stocks-index.js";
+export {default as strokeDasharrayConstant} from "./strokedasharray-constant.js";
+export {default as strokeDasharrayVariable} from "./strokedasharray-variable.js";
 export {default as thisIsJustToSay} from "./this-is-just-to-say.js";
 export {default as trafficHorizon} from "./traffic-horizon.js";
 export {default as travelersYearOverYear} from "./travelers-year-over-year.js";
@@ -229,7 +231,6 @@ export {default as usPresidentialElection2020} from "./us-presidential-election-
 export {default as usPresidentialForecast2016} from "./us-presidential-forecast-2016.js";
 export {default as usRetailSales} from "./us-retail-sales.js";
 export {default as usStatePopulationChange} from "./us-state-population-change.js";
-export {default as variableStrokeDasharray} from "./variable-strokedasharray.js";
 export {default as vectorField} from "./vector-field.js";
 export {default as vectorFrame} from "./vector-frame.js";
 export {default as wealthBritainBar} from "./wealth-britain-bar.js";

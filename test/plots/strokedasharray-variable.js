@@ -20,8 +20,8 @@ export default async function() {
         x2: 1,
         y1: 0,
         y2: 1,
-        strokeDasharray: d => d.strokeDasharray,
-        strokeDashoffset: d => d.strokeDashoffset,
+        strokeDasharray: "strokeDasharray",
+        strokeDashoffset: "strokeDashoffset",
         bend: true,
         headLength: 0
       })

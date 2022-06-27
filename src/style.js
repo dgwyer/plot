@@ -366,6 +366,9 @@ export function applyFrameAnchor({frameAnchor}, {width, height, marginTop, margi
   ];
 }
 
-function maybeDasharrayChannel(channel) {
-  return typeof channel === "function" ? [channel] : [, channel];
+// A constant stroke-dasharray can be specified as an array of numbers
+// or as a string joining numbers with white space or comma
+function maybeDasharrayChannel(value) {
+  if (value == null) return [undefined, "none"];
+  return (typeof value === "string" && value.match(/^([\d.]+(\s+|,)){1,}[\d.]+$/) || Array.isArray(value) && typeof value[0] === "number") ? [undefined, `${value}`] : [value, undefined];
 }
